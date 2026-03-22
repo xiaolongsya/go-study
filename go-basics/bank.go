@@ -1,14 +1,39 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"os"
+	"strconv"
 )
-func main(){
-	var balance float64 = 1000.0
 
-	
-	for i := 0; i < 2; i++ {
+const accountBalanceFile = "balance.txt"
+
+func getBalanceFromFile() (float64, error) {
+	data, err := os.ReadFile(accountBalanceFile)
+	if err != nil {
+		return 1000, errors.New("Error reading balance file")
+	}
+	balanceText := string(data)
+	balance, err := strconv.ParseFloat(balanceText, 64)
+	if err != nil {
+		return 1000, errors.New("Error parsing balance")
+	}
+
+	return balance, nil
+}
+func writeBalenceToFile(balance float64) {
+	balanceText := fmt.Sprint(balance)
+	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
+}
+func main() {
+	balance, err := getBalanceFromFile()
+	if err != nil {
+		fmt.Println("ERROR")
+		fmt.Println(err)
+		fmt.Println("-----------------------")
+	}
+	for {
 		fmt.Println("Welcome to the Bank of Go")
 		fmt.Println("Please select an option:")
 		fmt.Println("1. Deposit")
@@ -26,33 +51,36 @@ func main(){
 			fmt.Scan(&amount)
 			if amount <= 0 {
 				fmt.Println("Invalid amount")
-				return
+				continue
 			}
 			balance += amount
+			writeBalenceToFile(balance)
 			fmt.Println("Deposit successful. New balance:", balance)
 		} else if choice == 2 {
+			fmt.Println("Your balance is:", balance)
 			fmt.Print("Enter amount to withdraw: ")
 			var amount float64
 			fmt.Scan(&amount)
 			if amount <= 0 {
 				fmt.Println("Invalid amount")
-				return
+				continue
 			}
 			if amount > balance {
 				fmt.Println("Insufficient funds")
-			} 
+				continue
+			}
 			balance -= amount
+			writeBalenceToFile(balance)
 			fmt.Println("Withdrawal successful. New balance:", balance)
 
 		} else if choice == 3 {
 			fmt.Println("Your balance is:", balance)
 		} else if choice == 4 {
-			fmt.Println("Thank you for using the Bank of Go")
-			os.Exit(0)
+			break
 		} else {
 			fmt.Println("Invalid choice")
 		}
 	}
 
-	
+	fmt.Println("Thank you for using the Bank of Go")
 }
