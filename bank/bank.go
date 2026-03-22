@@ -35,13 +35,7 @@ func main() {
 		panic("Something went wrong")
 	}
 	for {
-		fmt.Println("Welcome to the Bank of Go")
-		fmt.Println("Please select an option:")
-		fmt.Println("1. Deposit")
-		fmt.Println("2. Withdraw")
-		fmt.Println("3. Check balance")
-		fmt.Println("4. Exit")
-
+		presentOptions()
 		var choice int
 		fmt.Print("Enter your choice:")
 		fmt.Scan(&choice)
