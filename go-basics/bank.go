@@ -32,6 +32,7 @@ func main() {
 		fmt.Println("ERROR")
 		fmt.Println(err)
 		fmt.Println("-----------------------")
+		panic("Something went wrong")
 	}
 	for {
 		fmt.Println("Welcome to the Bank of Go")
