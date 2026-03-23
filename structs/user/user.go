@@ -20,6 +20,9 @@ type Admin struct {
 }
 
 func NewAdmin(email, password string) (Admin, error) {
+	if email == "" || password == "" {
+		return Admin{}, errors.New("Please enter the email and password to create a new admin user")
+	}
 	return Admin{
 		email:    email,
 		password: password,
