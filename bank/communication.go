@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func presentOptions() {
-	fmt.Println("Welcome to the Bank of Go")
+
 	fmt.Println("Please select an option:")
 	fmt.Println("1. Deposit")
 	fmt.Println("2. Withdraw")
