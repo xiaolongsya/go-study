@@ -10,6 +10,15 @@ import (
 	"example.com/structs/todo"
 )
 
+type saver interface {
+	Save() error
+}
+
+type outputtable interface {
+	saver
+	Display()
+}
+
 func main() {
 	title, content := getNoteData()
 	todoText := getUserInput("Todo text: ")
@@ -20,27 +29,23 @@ func main() {
 		return
 	}
 
-	userTodo.Display()
-	err = userTodo.Save()
+	err = outputData(userTodo)
 	if err != nil {
-		fmt.Println("Error saving todo:", err)
+		fmt.Println(err)
 		return
 	}
-	fmt.Println("Todo saved successfully!")
 
 	userNote, err := note.New(title, content)
 	if err != nil {
-		fmt.Println("Error creating note:", err)
+		fmt.Println(err)
 		return
 	}
 
-	userNote.Display()
-	err = userNote.Save()
+	err = outputData(userNote)
 	if err != nil {
-		fmt.Println("Error saving note:", err)
+		fmt.Println(err)
 		return
 	}
-	fmt.Println("Note saved successfully!")
 
 }
 
@@ -62,4 +67,19 @@ func getUserInput(prompt string) string {
 	text = strings.TrimSuffix(text, "\r")
 
 	return text
+}
+
+func saveData(data saver) error {
+	err := data.Save()
+	if err != nil {
+		fmt.Println("Saving the data failed:", err)
+		return err
+	}
+	fmt.Println("Data saved successfully!")
+	return nil
+}
+
+func outputData(data outputtable) error {
+	data.Display()
+	return saveData(data)
 }
