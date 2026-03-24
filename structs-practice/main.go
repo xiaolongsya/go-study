@@ -6,11 +6,28 @@ import (
 	"os"
 	"strings"
 
-	"example.com/note/note"
+	"example.com/structs/note"
+	"example.com/structs/todo"
 )
 
 func main() {
 	title, content := getNoteData()
+	todoText := getUserInput("Todo text: ")
+
+	userTodo, err := todo.New(todoText)
+	if err != nil {
+		fmt.Println("Error creating todo:", err)
+		return
+	}
+
+	userTodo.Display()
+	err = userTodo.Save()
+	if err != nil {
+		fmt.Println("Error saving todo:", err)
+		return
+	}
+	fmt.Println("Todo saved successfully!")
+
 	userNote, err := note.New(title, content)
 	if err != nil {
 		fmt.Println("Error creating note:", err)
