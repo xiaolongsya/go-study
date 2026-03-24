@@ -20,6 +20,7 @@ type outputtable interface {
 }
 
 func main() {
+
 	title, content := getNoteData()
 	todoText := getUserInput("Todo text: ")
 
@@ -47,6 +48,27 @@ func main() {
 		return
 	}
 
+}
+
+func printSomething(value any) {
+	intVal, ok := value.(int)
+	if ok {
+		fmt.Println("Integer: ", intVal)
+	}
+
+	float64Val, ok := value.(float64)
+	if ok {
+		fmt.Println("Float64: ", float64Val)
+	}
+	// switch value.(type) {
+	// case int:
+	// 	fmt.Println("The value is an integer.")
+	// case string:
+	// 	fmt.Println("The value is a string.")
+	// default:
+	// 	fmt.Println("The value is of an unknown type.")
+	// }
+	// fmt.Println(value)
 }
 
 func getNoteData() (string, string) {
