@@ -1,3 +1,3 @@
-module com.example/generics
+module example.com/generics
 
 go 1.26.1
